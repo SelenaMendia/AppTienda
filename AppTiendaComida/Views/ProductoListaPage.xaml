@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppTiendaComida.Views.ProductoListaPage"
+             xmlns:vmodel="clr-namespace:AppTiendaComida.ViewModels"
+             xmlns:local="clr-namespace:AppTiendaComida.ViewModels"
+             Title="ProductoListaPage">
+
+
+    <Grid Padding="5" BackgroundColor="White">
+        <!-- Alineado a la parte superior -->
+        <Button 
+Text="Menu"             
+Command="{Binding MenuProductoCommand}" 
+CommandParameter="0" 
+BackgroundColor="OrangeRed"    
+TextColor="White" 
+CornerRadius="15" 
+HorizontalOptions="Start"  
+            VerticalOptions="Start"
+                    Padding="15"
+ImageSource="icon_menu.png"  
+        ContentLayout="Left, 10"
+        WidthRequest="93"
+        HeightRequest="5" />
+        
+        <!--<Button 
+Text="Nuevo"             
+Command="{Binding NuevoCommand}" 
+CommandParameter="0" 
+BackgroundColor="DarkMagenta"    
+TextColor="White" 
+CornerRadius="5" 
+HorizontalOptions="End"  
+            VerticalOptions="Start" 
+             ImageSource="icon_mas.png"
+            ContentLayout="Left, 10" />-->
+
+        <!--<ImageButton
+    Source="icon_mas.png"
+    Command="{Binding NuevoCommand}" 
+    CommandParameter="0" 
+    BackgroundColor="DarkMagenta"
+    CornerRadius="5"
+    HorizontalOptions="End"
+    VerticalOptions="Start"
+    WidthRequest="50"  
+            HeightRequest="50" 
+            Padding="10"
+    />-->
+
+        <Button 
+    Text="Nuevo"
+    Command="{Binding NuevoProductoCommand}"
+    CommandParameter="0"
+    BackgroundColor="OrangeRed"
+    TextColor="White"
+    CornerRadius="15"
+    HorizontalOptions="End"
+    VerticalOptions="Start"
+            Padding="15"
+    ImageSource="icon_mas.png"  
+            ContentLayout="Right, 10"
+            WidthRequest="98"
+            HeightRequest="5" />
+
+            <Grid Padding="5" Margin="0,40,0,0">
+
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding GetProductosCommand}">
+            <CollectionView 
+            ItemsSource="{Binding Productos}" 
+            SelectionMode="Single" 
+            EmptyView="--SIN DATOS DISPONIBLES--" 
+            SelectedItem="{Binding ProductoSeleccionado}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                                <Frame 
+                                    BorderColor="Black"        
+                                    CornerRadius="15"
+                                    BackgroundColor="White"
+                                    Padding="0"
+                                    HasShadow="False">
+                                    <Grid RowDefinitions="*,*" ColumnDefinitions="Auto, *" BackgroundColor="White">
+                                
+                                <Image Grid.Column="0" Margin="5,0,0,0" Grid.RowSpan="2" Source="{Binding ImagenUrl}" WidthRequest="80" HeightRequest="80"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center" Padding="10">
+                                    <Label Text="{Binding Nombre}" TextColor="DarkRed" FontSize="Title"/>
+                                    <Label Text="{Binding Descripción}" TextColor="Black" FontSize="15"/>
+                                    <Label 
+                                    VerticalOptions="End"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Precio, StringFormat='${0}'}" 
+                                    FontSize="Subtitle" 
+                                    TextColor="DarkGreen" 
+                                    FontAttributes="Bold"/>
+                                </StackLayout>
+                            </Grid>
+                                </Frame>
+                            </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <!--<Button 
+        Text="Nuevo"             
+        Command="{Binding NuevoProductoCommand}" 
+        CommandParameter="0" 
+        BackgroundColor="DarkMagenta"    
+        TextColor="White" 
+        CornerRadius="5" 
+        HorizontalOptions="End"
+        VerticalOptions="End"/>-->
+    </Grid>
+    </Grid>
+</ContentPage>

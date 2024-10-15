@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppTiendaComida.ViewModels"
+             x:Class="AppTiendaComida.Views.InicioPage"
+             x:DataType="viewModels:InicioViewModel"
+             >
+    <!--<ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#B12E2E" Offset="1.0" />
+            <GradientStop Color="#FFFFFF" Offset="0.1" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="*, Auto">
+        <VerticalStackLayout Grid.Row="0"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="20">
+            --><!--<Image Source="logo.png"
+                   HeightRequest="200"
+                   WidthRequest="200"/>--><!--
+            <Label Text="Comida Fast"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*, *, *, *"
+              BackgroundColor="White"
+              Padding="10">
+            <VerticalStackLayout Grid.Column="0">
+                <ImageButton Source="home.png"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             Command="{Binding GoToHomePageCommand}"/>
+                <Label Text="Home" 
+                       FontSize="12" 
+                       TextColor="Black" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <ImageButton Source="usuario.png"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             Command="{Binding GoToUsuariosPageCommand}"/>
+                <Label Text="Usuarios" 
+                       FontSize="12" 
+                       TextColor="Black" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2">
+                <ImageButton Source="carro.png"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             Command="{Binding GoToCarritoPageCommand}"/>
+                <Label Text="Carrito" 
+                       FontSize="12" 
+                       TextColor="Black" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="3">
+                <ImageButton Source="pedido.png"
+                             HeightRequest="24"
+                             WidthRequest="24"
+                             Command="{Binding GoToPedidosPageCommand}"/>
+                <Label Text="Pedidos" 
+                       FontSize="12" 
+                       TextColor="Black" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>-->
+
+    <Grid Padding="5" BackgroundColor="White">
+        <!-- Definición de filas para el Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Fila para el botón del menú -->
+            <RowDefinition Height="*"/>
+            <!-- Fila para el ScrollView -->
+        </Grid.RowDefinitions>
+
+        <!-- Alineado a la parte superior --><!--
+        <Button 
+    Text="Volver"             
+    Command="{Binding NuevoCommand}" 
+    CommandParameter="0" 
+    BackgroundColor="OrangeRed"    
+    TextColor="White" 
+    CornerRadius="15" 
+    HorizontalOptions="Start"  
+    VerticalOptions="Start"
+    Padding="15"
+    ImageSource="icon_menu.png"  
+    ContentLayout="Left, 10"
+    WidthRequest="93"
+    HeightRequest="40" />-->
+        <!-- Ajusta la altura para que el botón se vea bien -->
+
+        <!-- ScrollView ocupa el espacio restante -->
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <StackLayout Padding="10" BackgroundColor="White">
+
+                <Button 
+Text="Volver"
+Command="{Binding VolverCommand}" 
+CommandParameter="0"
+BackgroundColor="OrangeRed"
+TextColor="White"
+CornerRadius="15"
+HorizontalOptions="End"
+VerticalOptions="Start"
+        Padding="15"
+ImageSource="flecha_d.png"  
+        ContentLayout="Right, 10"
+        WidthRequest="98"
+        HeightRequest="5" />
+
+                <!-- Agregar un Label para el título "Menús" -->
+                <Label Text="Menús"
+               FontSize="24"  
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                       TextColor="Black"
+                    Margin="0,20,0,20" />
+
+
+                    <Button Text="Usuarios" 
+                Command="{Binding GoToUsuariosPageCommand}" 
+                BackgroundColor="Orange" 
+                TextColor="Black" 
+                Margin="40,20,40,20"/>
+                <Button Text="Productos" 
+                Command="{Binding GoToCarritoPageCommand}" 
+                BackgroundColor="Orange" 
+                TextColor="Black" 
+                Margin="40,20,40,20"/>
+                <Button Text="Cerrar Sesion" 
+                Command="{Binding GoToPedidosPageCommand}" 
+                BackgroundColor="OrangeRed" 
+                TextColor="Black"
+                 Margin="40,20,40,20" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

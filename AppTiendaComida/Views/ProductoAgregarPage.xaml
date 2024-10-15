@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppTiendaComida.Views.ProductoAgregarPage"
+             >
+
+    <Grid Padding="5" BackgroundColor="White">
+        <!-- Definición de filas para el Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Fila para el botón del menú -->
+            <RowDefinition Height="*"/>
+            <!-- Fila para el ScrollView -->
+        </Grid.RowDefinitions>
+
+        <!-- Alineado a la parte superior -->
+        <Button 
+        Text="Volver"             
+        Command="{Binding NuevoCommand}" 
+        CommandParameter="0" 
+        BackgroundColor="OrangeRed"    
+        TextColor="White" 
+        CornerRadius="15" 
+        HorizontalOptions="Start"  
+        VerticalOptions="Start"
+        Padding="15"
+        ImageSource="icon_menu.png"  
+        ContentLayout="Left, 10"
+        WidthRequest="93"
+        HeightRequest="40" />
+        <!-- Ajusta la altura para que el botón se vea bien -->
+
+        <!-- ScrollView ocupa el espacio restante -->
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <StackLayout Padding="20" BackgroundColor="White">
+
+                <Label Text="Agregar Producto" 
+                   TextColor="OrangeRed" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   Margin="0,10,0,30"/>
+
+                <Label Text="Nombre del Producto" 
+                   TextColor="Black" 
+                   FontSize="15" 
+                   Margin="0,10,0,0"/>
+                <Entry Placeholder="Nombre del producto" 
+                   Text="{Binding Nombre}" 
+                   Margin="0,10,0,0" 
+                   TextColor="Black" 
+                   BackgroundColor="Beige"/>
+
+                <Label Text="Descripción del Producto" 
+                   TextColor="Black" 
+                   FontSize="15" 
+                   Margin="0,10,0,0"/>
+                <Entry Placeholder="Descripción del producto" 
+                   Text="{Binding Descripción}" 
+                   Margin="0,10,0,0" 
+                   TextColor="Black" 
+                   BackgroundColor="Beige"/>
+
+                <Label Text="Stock" 
+                   TextColor="Black" 
+                   FontSize="15" 
+                   Margin="0,10,0,0"/>
+                <Entry Placeholder="Stock" 
+                   Text="{Binding Stock}" 
+                   Keyboard="Numeric" 
+                   Margin="0,10,0,0" 
+                   TextColor="Black" 
+                   BackgroundColor="CadetBlue"/>
+
+                <Label Text="Precio" 
+                   TextColor="Black" 
+                   FontSize="15" 
+                   Margin="0,10,0,0"/>
+                <Entry Placeholder="Precio" 
+                   Text="{Binding Precio}" 
+                   Keyboard="Numeric" 
+                   Margin="0,10,0,0" 
+                   TextColor="Black" 
+                   BackgroundColor="Beige"/>
+
+                <!--<Picker Title="Categoría" 
+                    TitleColor="Black" 
+                    ItemsSource="{Binding ListaCategorias}" 
+                    SelectedItem="{Binding CategoriaSeleccionada}" 
+                    ItemDisplayBinding="{Binding Value}" 
+                    Margin="0,10,0,0"
+                    TextColor="Black"
+                    BackgroundColor="CadetBlue"/>-->
+
+                <!-- Imagen del Producto -->
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="20" RowDefinitions="*,*" RowSpacing="0">
+                    <Frame CornerRadius="75" Padding="0" HasShadow="False" WidthRequest="300" HeightRequest="300"  Margin="30,0,30,0">
+                        <Image Source="{Binding ModificarImagen}" HeightRequest="300" />
+
+                    </Frame>
+                    <Button Text="Seleccionar Imagen" Command="{Binding BuscarImagenCommand}"  Grid.Row="0" VerticalOptions="End" HorizontalOptions="Center" WidthRequest="160"
+        Background="WhiteSmoke" />
+
+                </Grid>
+                <Button Text="Agregar Producto" 
+                    Command="{Binding GrabarProductoCommand}" 
+                    BackgroundColor="Green" 
+                    TextColor="White" 
+                    Margin="0,10,0,10"/>
+                <Button Text="Cancelar" 
+                    Command="{Binding CancelarCommand}" 
+                    BackgroundColor="Red" 
+                    TextColor="White"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
