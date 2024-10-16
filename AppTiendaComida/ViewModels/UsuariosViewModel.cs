@@ -17,10 +17,10 @@ namespace AppTiendaComida.ViewModels
     public partial class UsuariosViewModel : BaseViewModel
     {
         [ObservableProperty]
-        private ObservableCollection<UsuarioListaDTO> _usuarios;
+        private ObservableCollection<Usuario> _usuarios;
 
         [ObservableProperty]
-        private UsuarioListaDTO _usuarioSeleccionado;
+        private Usuario _usuarioSeleccionado;
 
         [ObservableProperty]
         private bool isRefreshing;
@@ -45,7 +45,7 @@ namespace AppTiendaComida.ViewModels
 
                 if (usuarios != null)
                 {
-                    Usuarios = new ObservableCollection<UsuarioListaDTO>(usuarios);
+                    Usuarios = new ObservableCollection<Usuario>(usuarios);
                 }
             }
             catch (Exception ex)
@@ -59,34 +59,42 @@ namespace AppTiendaComida.ViewModels
             }
         }
 
-        //partial void OnUsuarioSeleccionadoChanged(UsuarioListaDTO value)
-        //{
-        //    if (value != null)
-        //    {
-        //        // Llama al comando para obtener los detalles del usuario
-        //        GoToDetalleCommand.Execute(null);
-        //    }
-        //}
+        partial void OnUsuarioSeleccionadoChanged(Usuario value)
+        {
+            if (value != null)
+            {
+                // Llama al comando para obtener los detalles del usuario
+                GoToDetalleCommand.Execute(null);
+            }
+        }
 
-        //// Comando para navegar a la página de detalles del usuario
-        //[RelayCommand]
-        //private async Task GoToDetalle()
-        //{
-        //    if (UsuarioSeleccionado != null)
-        //    {
-        //        try
-        //        {
-        //            // Aquí podrías tener una lógica para navegar a la página de detalles del usuario
-        //            // Suponiendo que existe una clase UsuarioDetallePage
-        //            await Application.Current.MainPage.Navigation.PushAsync(new UsuarioDetallePage(UsuarioSeleccionado));
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            // Manejar errores si es necesario
-        //            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //        }
-        //    }
-        //}
+        // Comando para navegar a la página de detalles del usuario
+        
+
+        [RelayCommand]
+        private async Task GoToDetalle()
+        {
+            if (UsuarioSeleccionado != null)
+            {
+                try
+                {
+                    // Cambia a un método que obtenga detalles de usuario, no de producto
+                    var usuarioDetalles = await ApiService.GetUsuarioPorId(UsuarioSeleccionado.UsuarioId);
+
+                    if (usuarioDetalles != null)
+                    {
+                        // Navega a la página de detalles con la información del usuario obtenido
+                        await Application.Current.MainPage.Navigation.PushAsync(new UsuarioDetallePage(usuarioDetalles));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejar errores si es necesario
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
+            }
+        }
+
 
         //// Comando para agregar un nuevo usuario
         //[RelayCommand]

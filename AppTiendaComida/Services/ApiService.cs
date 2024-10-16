@@ -665,7 +665,7 @@ namespace AppTiendaComida.Services
             }
         }
 
-        public static async Task<List<UsuarioListaDTO>> GetUsuario()
+        public static async Task<List<Usuario>> GetUsuario()
         {
             string FINAL_URL = BASE_URL + "Usuario/ObtenerLista";
 
@@ -678,7 +678,7 @@ namespace AppTiendaComida.Services
                     if (!string.IsNullOrWhiteSpace(jsonData))
                     {
                         // Deserializar la respuesta JSON a una lista de UsuarioListaDTO
-                        var responseObject = JsonSerializer.Deserialize<List<UsuarioListaDTO>>(jsonData,
+                        var responseObject = JsonSerializer.Deserialize<List<Usuario>>(jsonData,
                             new JsonSerializerOptions
                             {
                                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -707,9 +707,45 @@ namespace AppTiendaComida.Services
         }
 
 
+        //public static async Task<Usuario> GetUsuarioPorId(int usuarioId)
+        //{
+        //    string FINAL_URL = BASE_URL + $"Usuario/ObtenerPorId/{usuarioId}"; // Asegúrate que tu API soporte esta ruta.
+
+        //    try
+        //    {
+        //        var response = await httpClient.GetAsync(FINAL_URL);
+        //        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        //        {
+        //            var jsonData = await response.Content.ReadAsStringAsync();
+        //            if (!string.IsNullOrWhiteSpace(jsonData))
+        //            {
+        //                var responseObject = JsonSerializer.Deserialize<Usuario>(jsonData,
+        //                    new JsonSerializerOptions
+        //                    {
+        //                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //                        WriteIndented = true
+        //                    });
+        //                return responseObject!;
+        //            }
+        //            else
+        //            {
+        //                throw new Exception("Usuario no encontrado.");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception($"La solicitud falló con el código de estado {response.StatusCode}");
+        //        }
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        throw new Exception(exception.Message);
+        //    }
+        //}
+
         public static async Task<Usuario> GetUsuarioPorId(int usuarioId)
         {
-            string FINAL_URL = BASE_URL + $"Usuario/ObtenerPorId/{usuarioId}"; // Asegúrate que tu API soporte esta ruta.
+            string FINAL_URL = BASE_URL + $"Usuario/ObtenerPorId/{usuarioId}";
 
             try
             {
@@ -719,13 +755,12 @@ namespace AppTiendaComida.Services
                     var jsonData = await response.Content.ReadAsStringAsync();
                     if (!string.IsNullOrWhiteSpace(jsonData))
                     {
-                        var responseObject = JsonSerializer.Deserialize<Usuario>(jsonData,
-                            new JsonSerializerOptions
-                            {
-                                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                WriteIndented = true
-                            });
-                        return responseObject!;
+                        var responseObject = JsonSerializer.Deserialize<Usuario>(jsonData, new JsonSerializerOptions
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            WriteIndented = true
+                        });
+                        return responseObject;
                     }
                     else
                     {
@@ -742,6 +777,7 @@ namespace AppTiendaComida.Services
                 throw new Exception(exception.Message);
             }
         }
+
 
 
 
