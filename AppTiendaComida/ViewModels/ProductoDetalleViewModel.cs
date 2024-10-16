@@ -96,6 +96,31 @@ namespace AppTiendaComida.ViewModels
         public ProductoDetalleViewModel()
         {
             title = Constants.AppName;
+
+            //cantidad
+
+            Cantidad = 1; // Valor inicial de cantidad
+
+            // Comando para incrementar la cantidad
+            IncreaseQuantityCommand = new Command(() =>
+            {
+                Cantidad++; // Incrementa la cantidad
+            });
+
+            // Comando para disminuir la cantidad
+            DecreaseQuantityCommand = new Command(() =>
+            {
+                if (Cantidad > 0) // Asegúrate de que la cantidad no sea menor a 0
+                {
+                    Cantidad--;
+                }
+            });
+
+            // Comando para establecer la cantidad manualmente
+            SetCantidadCommand = new Command<int>((newCantidad) =>
+            {
+                Cantidad = newCantidad;
+            });
         }
 
 
@@ -177,6 +202,27 @@ namespace AppTiendaComida.ViewModels
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
+
+
+        private int _cantidad;
+
+        // Propiedad para almacenar el ID del producto
+
+        // Propiedad de cantidad para enlazar a la interfaz de usuario
+        public int Cantidad
+        {
+            get => _cantidad;
+            set
+            {
+                SetProperty(ref _cantidad, value); // Utiliza SetProperty de ObservableObject
+            }
+        }
+
+        // Comandos para incrementar y disminuir la cantidad
+        public Command IncreaseQuantityCommand { get; }
+        public Command DecreaseQuantityCommand { get; }
+        public Command SetCantidadCommand { get; }
+
 
 
     }

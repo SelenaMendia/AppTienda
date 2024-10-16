@@ -71,8 +71,29 @@ HorizontalOptions="Start"
                    HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
 
+                <!-- Cuadro para seleccionar cantidad -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <Button Text="-" Command="{Binding DecreaseQuantityCommand}" />
+                    <Label 
+                        Text="1" 
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center" 
+               FontSize="Medium" 
+               WidthRequest="50" 
+               VerticalOptions="Center"
+                           BackgroundColor="White"
+                           TextColor="Black"/>
+                    <Button Text="+" Command="{Binding IncreaseQuantityCommand}" />
+                </HorizontalStackLayout>
+
                 <Button Text="Modificar Producto" 
     Command="{Binding ModificarProductoCommand}" 
+    BackgroundColor="OrangeRed" 
+    TextColor="White" 
+    Margin="0,10,0,10"/>
+
+
+                <Button Text="Agregar Carrito" 
     BackgroundColor="OrangeRed" 
     TextColor="White" 
     Margin="0,10,0,10"/>

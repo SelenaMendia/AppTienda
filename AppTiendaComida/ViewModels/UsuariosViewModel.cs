@@ -50,7 +50,7 @@ namespace AppTiendaComida.ViewModels
             }
             catch (Exception ex)
             {
-                // Manejar errores si es necesario, por ejemplo, mostrar un mensaje de error al usuario
+                // Manejar errores
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
             finally
@@ -78,7 +78,7 @@ namespace AppTiendaComida.ViewModels
             {
                 try
                 {
-                    // Cambia a un método que obtenga detalles de usuario, no de producto
+                    // Cambia a un método que obtenga detalles de usuario
                     var usuarioDetalles = await ApiService.GetUsuarioPorId(UsuarioSeleccionado.UsuarioId);
 
                     if (usuarioDetalles != null)
