@@ -995,6 +995,7 @@ namespace AppTiendaComida.Services
 
         public static async Task<bool> UpdateProductoAsync(int id, Producto producto)
         {
+
             var response = await httpClient.PutAsJsonAsync($"Producto/Modificar/{id}", producto);
             if (response.IsSuccessStatusCode)
             {
@@ -1008,13 +1009,19 @@ namespace AppTiendaComida.Services
 
         public static async Task<bool> UpdateUserAsync(int id, Usuario usuario)
         {
-            var response = await httpClient.PutAsJsonAsync($"Usuario/Modificar/{id}", usuario);
+            string finalUrl = $"{BASE_URL}Usuario/Modificar/{id}";
+
+            var response = await httpClient.PutAsJsonAsync(finalUrl, usuario);
             if (response.IsSuccessStatusCode)
             {
                 return true;
             }
             else
             {
+                // return false;
+                // Aquí mostramos el contenido del error si no es exitoso
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error: {errorContent}");
                 return false;
             }
         }

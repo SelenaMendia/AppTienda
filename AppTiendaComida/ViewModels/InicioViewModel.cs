@@ -39,11 +39,27 @@ namespace AppTiendaComida.ViewModels
             //await Application.Current.MainPage.Navigation.PushAsync(new PedidosPage());  // Navega a PedidosPage
         }
 
+
+        [RelayCommand]
+        public async Task GoToAcercaPage()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new AcercaDe());  // Navega a PedidosPage
+        }
+
         [RelayCommand]
         private async Task Volver()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ProductoListaPage(new ProductoListaViewModel()));
 
+        }
+
+        [RelayCommand]
+        public async Task GoToCerrarPage()
+        {
+
+            await Application.Current.MainPage.Navigation.PushAsync(new Login());
+
+            //await Shell.Current.GoToAsync(nameof(ProductoListaPage));
         }
     }
 }

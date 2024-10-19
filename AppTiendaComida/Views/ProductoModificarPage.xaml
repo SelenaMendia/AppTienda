@@ -15,7 +15,8 @@
 
         <!-- Botón de Volver -->
         <Button 
-            Text="Volver"             
+            Text="Volver"   
+            Command="{Binding CancelarCommand}"
             CommandParameter="0" 
             BackgroundColor="OrangeRed"    
             TextColor="White" 
@@ -92,12 +93,15 @@
                             HorizontalOptions="Center" 
                             WidthRequest="160"
                             Background="WhiteSmoke" />
-                    <Button Text="Tomar Foto" 
-                            Command="{Binding TomarFotoCommand}" 
-                            BackgroundColor="DarkOliveGreen" 
-                            VerticalOptions="End" 
-                            HorizontalOptions="Center"/>
+                    
                 </Grid>
+                <Button Text="Tomar Foto" 
+        Command="{Binding TomarFotoCommand}" 
+        BackgroundColor="DarkOliveGreen" 
+        VerticalOptions="End" 
+        Margin="10"
+        Padding="10"
+        HorizontalOptions="Center"/>
 
                 <!-- Botones de acción -->
                 <Button Text="Modificar Producto" 

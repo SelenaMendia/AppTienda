@@ -15,6 +15,7 @@
         <!-- Botón para volver -->
         <Button 
     Text="Volver"
+    Command="{Binding VolverCommand}"
     CommandParameter="0"
     BackgroundColor="OrangeRed"
     TextColor="White"
