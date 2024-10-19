@@ -70,9 +70,15 @@
                            HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
 
+                <Button Text="Modificar Usuario" 
+         Command="{Binding ModificarProductoCommand}" 
+         BackgroundColor="Green" 
+         TextColor="White" 
+         Margin="0,10,0,10"/>
+
                 <Button Text="Eliminar Usuario" 
                         Command="{Binding DeleteUsuarioCommand}" 
-                        BackgroundColor="OrangeRed" 
+                        BackgroundColor="Red" 
                         TextColor="White" 
                         Margin="0,10,0,10"/>
             </VerticalStackLayout>

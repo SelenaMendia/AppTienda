@@ -992,5 +992,32 @@ namespace AppTiendaComida.Services
             }
         }
 
+
+        public static async Task<bool> UpdateProductoAsync(int id, Producto producto)
+        {
+            var response = await httpClient.PutAsJsonAsync($"Producto/Modificar/{id}", producto);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> UpdateUserAsync(int id, Usuario usuario)
+        {
+            var response = await httpClient.PutAsJsonAsync($"Usuario/Modificar/{id}", usuario);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="AppTiendaComida.Views.UsuarioModificarPage"
+         xmlns:mv="clr-namespace:AppTiendaComida.ViewModels"
+            x:DataType="mv:UsuarioModificarViewModel"
+         >
+    <Grid Padding="5" BackgroundColor="White">
+        <!-- Definición de filas para el Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Botón para volver -->
+        <Button 
+    Text="Volver"
+    CommandParameter="0"
+    BackgroundColor="OrangeRed"
+    TextColor="White"
+    CornerRadius="15"
+    HorizontalOptions="Start"
+    VerticalOptions="Start"
+    Padding="15"
+    ImageSource="flecha_i.png"
+    ContentLayout="Left, 10"
+    WidthRequest="93"
+    HeightRequest="40" />
+
+        <!-- ScrollView para el formulario de usuario -->
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <StackLayout Padding="20" BackgroundColor="White">
+
+                <!-- Título -->
+                <Label Text="Agregar Usuario"
+               TextColor="OrangeRed"
+               FontSize="20"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,10,0,30" />
+
+                <!-- Campo Nombre -->
+                <Label Text="Nombre"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Nombre completo"
+               Text="{Binding Usuario.Nombre}"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Campo Usuario -->
+                <Label Text="Usuario"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Nombre de usuario"
+               Text="{Binding Usuario.Usuario1}"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Campo Teléfono -->
+                <Label Text="Teléfono"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Número de teléfono"
+               Text="{Binding Usuario.Telefono}"
+               Keyboard="Telephone"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Campo Correo -->
+                <Label Text="Correo Electrónico"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Correo electrónico"
+               Text="{Binding Usuario.Correo}"
+               Keyboard="Email"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Campo Contraseña -->
+                <Label Text="Contraseña"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Contraseña"
+               Text="{Binding Usuario.Contraseña}"
+               IsPassword="True"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Campo Rol -->
+                <Label Text="Rol"
+               TextColor="Black"
+               FontSize="15"
+               Margin="0,10,0,0" />
+                <Entry Placeholder="Rol del usuario"
+               Text="{Binding Usuario.Rol}"
+               Margin="0,10,0,0"
+               TextColor="Black"
+               BackgroundColor="Beige" />
+
+                <!-- Botones de acción -->
+                <Button Text="Modificar Usuario"
+                Command="{Binding EditarUserCommand}"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,10,0,10" />
+                <!--<Button Text="Cancelar"
+                Command="{Binding CancelarCommand}"
+                BackgroundColor="Red"
+                TextColor="White" />-->
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

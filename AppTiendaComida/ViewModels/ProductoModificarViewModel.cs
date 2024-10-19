@@ -11,11 +11,21 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using AppTiendaComida.Views;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace AppTiendaComida.ViewModels
 {
     public partial class ProductoModificarViewModel : BaseViewModel
     {
+
+        [ObservableProperty]
+        private ObservableCollection<Producto> _productos;
+
+        [ObservableProperty]
+        private Producto _productoSeleccionado;
+
+
         // Propiedades observables para los campos de producto
         [ObservableProperty] private string nombre;
         [ObservableProperty] private string descripcion;
@@ -27,6 +37,8 @@ namespace AppTiendaComida.ViewModels
         // Propiedad observable que contiene el producto actual
         [ObservableProperty]
         private Producto producto;
+
+        
 
         // Constructor que inicializa el ViewModel con los datos del producto existente
         public ProductoModificarViewModel(int productoId)
@@ -116,14 +128,15 @@ namespace AppTiendaComida.ViewModels
         [RelayCommand]
         private async Task ModificarProducto()
         {
-            // Validar los datos de entrada
-            if (string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(Descripcion) || Stock <= 0 || Precio <= 0)
+            // Verificar si hay un producto seleccionado
+            if (Producto == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Datos incompletos. Verifique!", "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", "No se ha seleccionado ningún producto.", "Aceptar");
                 return;
             }
 
             // Actualizar solo los campos modificados
+            // Si un campo está vacío o no es válido, se mantiene el valor actual en Producto
             Producto.Nombre = !string.IsNullOrEmpty(Nombre) ? Nombre : Producto.Nombre;
             Producto.Descripción = !string.IsNullOrEmpty(Descripcion) ? Descripcion : Producto.Descripción;
             Producto.Stock = Stock > 0 ? Stock : Producto.Stock;
@@ -132,8 +145,8 @@ namespace AppTiendaComida.ViewModels
             // Si hay una nueva imagen seleccionada, actualizarla
             if (Imagen != null)
             {
-                Producto.ImagenUrl = RutaImagen;
-                Producto.Imagen = Imagen;
+                Producto.ImagenUrl = RutaImagen; // Asegúrate de que esta propiedad se esté usando correctamente
+                Producto.Imagen = Imagen; // Actualiza la imagen si hay una nueva
             }
 
             try
@@ -159,5 +172,63 @@ namespace AppTiendaComida.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+
+
+        private Producto _productoDetalles;
+
+        public Producto ProductoDetalles
+        {
+            get => _productoDetalles;
+            set
+            {
+                _productoDetalles = value;
+                OnPropertyChanged(nameof(ProductoDetalles));
+            }
+        }
+
+
+        // Constructor
+        public ProductoModificarViewModel(Producto productoDetalles)
+        {
+            ProductoDetalles = productoDetalles;
+        }
+
+
+        // Implementación de INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
+        [RelayCommand]
+        public async Task EditarProductoAsync()
+        {
+            if (!IsBusy)
+            {
+                try
+                {
+                    IsBusy = false;
+                    var result = await ApiService.UpdateProductoAsync(Producto.ProductoId, Producto);
+                    if (result != null)
+                    {
+                        IsBusy = false;
+                        await App.Current.MainPage.DisplayAlert("Respuesta!", "Usuario modificado correctamente", "Ok");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await App.Current.MainPage.DisplayAlert("Error!", "ex.Message", "Ok");
+
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
+        }
+
     }
 }

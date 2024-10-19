@@ -44,27 +44,27 @@
                        FontSize="15" 
                        Margin="0,10,0,0"/>
                 <Entry Placeholder="Nombre del producto" 
-                       Text="{Binding Nombre}" 
+                       Text="{Binding Producto.Nombre}" 
                        Margin="0,10,0,0" 
                        TextColor="Black" 
                        BackgroundColor="Beige"/>
 
-                <!--<Label Text="Descripción del Producto" 
+                <Label Text="Descripción del Producto" 
                        TextColor="Black" 
                        FontSize="15" 
                        Margin="0,10,0,0"/>
                 <Entry Placeholder="Descripción del producto" 
-                       Text="{Binding Descripcion}" 
+                       Text="{Binding Producto.Descripción}" 
                        Margin="0,10,0,0" 
                        TextColor="Black" 
-                       BackgroundColor="Beige"/>-->
+                       BackgroundColor="Beige"/>
 
                 <Label Text="Stock" 
                        TextColor="Black" 
                        FontSize="15" 
                        Margin="0,10,0,0"/>
                 <Entry Placeholder="Stock" 
-                       Text="{Binding Stock}" 
+                       Text="{Binding Producto.Stock}" 
                        Keyboard="Numeric" 
                        Margin="0,10,0,0" 
                        TextColor="Black" 
@@ -75,7 +75,7 @@
                        FontSize="15" 
                        Margin="0,10,0,0"/>
                 <Entry Placeholder="Precio" 
-                       Text="{Binding Precio}" 
+                       Text="{Binding Producto.Precio}" 
                        Keyboard="Numeric" 
                        Margin="0,10,0,0" 
                        TextColor="Black" 
@@ -84,7 +84,7 @@
                 <!-- Sección para seleccionar imagen -->
                 <Grid Margin="20" RowDefinitions="*,*" RowSpacing="0">
                     <Frame CornerRadius="75" Padding="0" HasShadow="False" WidthRequest="300" HeightRequest="300" Margin="30,0,30,0">
-                        <Image Source="{Binding RutaImagen}" HeightRequest="300" />
+                        <Image Source="{Binding Producto.ImagenUrl}" HeightRequest="300" />
                     </Frame>
                     <Button Text="Seleccionar Imagen" 
                             Command="{Binding FotoGaleriaCommand}"  

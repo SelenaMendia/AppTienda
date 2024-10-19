@@ -148,7 +148,7 @@ namespace AppTiendaComida.ViewModels
         [RelayCommand]
         private async Task ModificarProducto()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ProductoModificarPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new ProductoModificarPage(ProductoSeleccionado));
 
             //var navigationPage = Application.Current.MainPage as NavigationPage;
             //if (navigationPage != null)
@@ -259,6 +259,8 @@ namespace AppTiendaComida.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error!", "No hay un usuario seleccionado válido", "Ok");
             }
         }
+
+
 
     }
 }

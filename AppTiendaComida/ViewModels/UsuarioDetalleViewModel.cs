@@ -160,11 +160,12 @@ namespace AppTiendaComida.ViewModels
 
 
 
-        //[RelayCommand]
-        //private async Task ModificarUsuario()
-        //{
-        //    // Pasar el usuario seleccionado al modificar
-        //    await Application.Current.MainPage.Navigation.PushAsync(new UsuarioModificarPage(_usuarioSeleccionado));
-        //}
+        [RelayCommand]
+        private async Task ModificarProducto()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new UsuarioModificarPage(UsuarioSeleccionado));
+
+            
+        }
     }
 }
