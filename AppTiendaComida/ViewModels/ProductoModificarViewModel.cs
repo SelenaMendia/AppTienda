@@ -10,167 +10,154 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
+using AppTiendaComida.Views;
 
 namespace AppTiendaComida.ViewModels
 {
     public partial class ProductoModificarViewModel : BaseViewModel
     {
-        [ObservableProperty]
-        Producto _ProductoRecibido;
+        // Propiedades observables para los campos de producto
+        [ObservableProperty] private string nombre;
+        [ObservableProperty] private string descripcion;
+        [ObservableProperty] private int stock;
+        [ObservableProperty] private decimal precio;
+        [ObservableProperty] private string rutaImagen;  // Ruta de la imagen seleccionada
+        [ObservableProperty] private FileResult imagen;  // Archivo de la imagen seleccionado
 
+        // Propiedad observable que contiene el producto actual
         [ObservableProperty]
-        int id;
+        private Producto producto;
 
-        [ObservableProperty]
-        CrearProductoDto _ModificarProducto = new CrearProductoDto();
-
-        [ObservableProperty]
-        ImageSource _ImageSource;
-
-        ApiService _servicio;
-        public ProductoModificarViewModel()
+        // Constructor que inicializa el ViewModel con los datos del producto existente
+        public ProductoModificarViewModel(int productoId)
         {
-            Title = "Midifcación del producto";
-            _servicio = new ApiService();
+            CargarDatosProducto(productoId);
         }
 
-        [RelayCommand]
-        public async Task ModificarProductoAsync()
+        // Método para cargar los datos del producto existente desde la API
+        private async void CargarDatosProducto(int productoId)
         {
-            if (!IsBusy)
+            try
             {
-                try
-                {
-                    IsBusy = true;
+                // Obtener los datos actuales del producto desde el servicio
+                Producto = await ApiService.GetProductoPorId(productoId);
 
-                    ModificarProducto.Nombre = ProductoRecibido.Nombre;
-                    ModificarProducto.Precio = ProductoRecibido.Precio;
-                    ModificarProducto.Descripción = ProductoRecibido.Descripción;
-                    ModificarProducto.Stock = ProductoRecibido.Stock;
-
-
-
-                    var response = _servicio.PutProductosAsync(id, ModificarProducto);
-                    if (response != null)
-                    {
-                        IsBusy = false;
-                        await App.Current.MainPage.DisplayAlert("Respuesta", "Producto modificado correctamente", "Ok");
-
-                    }
-                    else
-                    {
-                        IsBusy = false;
-                        await App.Current.MainPage.DisplayAlert("Error catastrofico!", "Hubo un error al intentar cargar el producto", "Ok");
-
-                    }
-                }
-                catch (Exception)
-                {
-
-                    IsBusy = false;
-                    await App.Current.MainPage.DisplayAlert("Error catastrofico!", "Hubo un error al intentar cargar el producto", "Ok");
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                // Rellenar las propiedades con los valores del producto actual
+                Nombre = Producto.Nombre;
+                Descripcion = Producto.Descripción;
+                Stock = Producto.Stock;
+                Precio = Producto.Precio;
+                RutaImagen = Producto.ImagenUrl;  // Ruta de la imagen actual
             }
-
-        }
-
-        [RelayCommand]
-        public async Task BuscarPorIdAsync()
-        {
-            if (!IsBusy)
+            catch (Exception ex)
             {
-                try
-                {
-                    IsBusy = true;
-                    _ProductoRecibido = await _servicio.SearchByIdAsync(id);
-                    if (_ProductoRecibido != null)
-                    {
-                        IsBusy = false;
-                        //recargar las propiedades para que se vean
-                        OnPropertyChanged(nameof(ProductoRecibido));
-
-                    }
-                    else
-                    {
-                        IsBusy = false;
-                        await App.Current.MainPage.DisplayAlert("Error!", "Producto no encontrado", "Ok");
-
-                    }
-                    IsBusy = false;
-                }
-                catch (Exception ex)
-                {
-                    IsBusy = false;
-
-                    await App.Current.MainPage.DisplayAlert("Error!", $"{ex.Message}", "Ok");
-                }
-                finally { IsBusy = false; }
-            }
-        }
-        [RelayCommand]
-        public async Task BuscarImagenAsync()
-        {
-            if (!IsBusy)
-            {
-                try
-                {
-                    IsBusy = true;
-
-                    // Seleccionar la imagen usando FilePicker
-                    FileResult? result = await FilePicker.PickAsync(new PickOptions
-                    {
-                        PickerTitle = "Selecciona una imagen"
-                    });
-
-                    if (result != null)
-                    {
-                        // Abre el stream de la imagen seleccionada
-                        var stream = await result.OpenReadAsync();
-
-                        // Asignar el archivo seleccionado a la propiedad Imagen del modelo ModificarProducto
-                        using var memoryStream = new MemoryStream();
-                        await stream.CopyToAsync(memoryStream);
-
-                        // Crear un FormFile a partir del stream para que sea compatible con IFormFile
-                        ModificarProducto.Imagen = new FormFile(memoryStream, 0, memoryStream.Length, result.FileName, result.FileName)
-                        {
-                            Headers = new HeaderDictionary(),
-                            ContentType = result.ContentType ?? "application/octet-stream"
-                        };
-
-                        // Actualiza la imagen en la interfaz (UI) usando ImageSource
-                        _ImageSource = ImageSource.FromStream(() => new MemoryStream(memoryStream.ToArray()));
-
-                        // Asegura que el BindingContext se actualiza correctamente
-                        Application.Current.MainPage.BindingContext = this;
-                        OnPropertyChanged(nameof(ImageSource)); // Notificar que la imagen ha cambiado
-                    }
-                    else
-                    {
-                        await App.Current.MainPage.DisplayAlert("Error!", "Imagen no cargada", "Ok");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error!", ex.Message, "Ok");
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error al cargar el producto: {ex.Message}", "Aceptar");
             }
         }
 
-
+        // Comando para seleccionar una imagen desde la galería
         [RelayCommand]
-        public async Task GoBackAsync()
+        private async Task FotoGaleria()
+        {
+            try
+            {
+                // Seleccionar una imagen de la galería
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    FileResult foto = await MediaPicker.PickPhotoAsync();
+                    if (foto != null)
+                    {
+                        // Guardar la imagen seleccionada en el dispositivo
+                        string localFilePath = Path.Combine(FileSystem.CacheDirectory, foto.FileName);
+                        using Stream source = await foto.OpenReadAsync();
+                        using FileStream fileStream = File.OpenWrite(localFilePath);
+                        await source.CopyToAsync(fileStream);
+
+                        // Actualizar la ruta y la imagen
+                        RutaImagen = localFilePath;
+                        Imagen = foto;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al seleccionar la imagen", "Aceptar");
+            }
+        }
+
+        // Comando para tomar una foto con la cámara
+        [RelayCommand]
+        private async Task TomarFoto()
+        {
+            try
+            {
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    FileResult foto = await MediaPicker.CapturePhotoAsync();
+                    if (foto != null)
+                    {
+                        string localFilePath = Path.Combine(FileSystem.CacheDirectory, foto.FileName);
+                        using Stream source = await foto.OpenReadAsync();
+                        using FileStream fileStream = File.OpenWrite(localFilePath);
+                        await source.CopyToAsync(fileStream);
+
+                        RutaImagen = localFilePath;
+                        Imagen = foto;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al tomar foto", "Aceptar");
+            }
+        }
+
+        // Comando para modificar el producto
+        [RelayCommand]
+        private async Task ModificarProducto()
+        {
+            // Validar los datos de entrada
+            if (string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(Descripcion) || Stock <= 0 || Precio <= 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Datos incompletos. Verifique!", "Aceptar");
+                return;
+            }
+
+            // Actualizar solo los campos modificados
+            Producto.Nombre = !string.IsNullOrEmpty(Nombre) ? Nombre : Producto.Nombre;
+            Producto.Descripción = !string.IsNullOrEmpty(Descripcion) ? Descripcion : Producto.Descripción;
+            Producto.Stock = Stock > 0 ? Stock : Producto.Stock;
+            Producto.Precio = Precio > 0 ? Precio : Producto.Precio;
+
+            // Si hay una nueva imagen seleccionada, actualizarla
+            if (Imagen != null)
+            {
+                Producto.ImagenUrl = RutaImagen;
+                Producto.Imagen = Imagen;
+            }
+
+            try
+            {
+                // Llamar al servicio API para modificar el producto
+                await ApiService.ModificarProductoConImagen(Producto);
+
+                // Notificar al usuario del éxito
+                await Application.Current.MainPage.DisplayAlert("Éxito", "Producto modificado exitosamente.", "Aceptar");
+
+                // Navegar de vuelta a la lista de productos
+                await Application.Current.MainPage.Navigation.PushAsync(new ProductoListaPage(new ProductoListaViewModel()));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error al modificar el producto: {ex.Message}", "Aceptar");
+            }
+        }
+
+        // Comando para cancelar la modificación y volver atrás
+        [RelayCommand]
+        private async Task Cancelar()
         {
             await Application.Current.MainPage.Navigation.PopAsync();
-
         }
     }
 }

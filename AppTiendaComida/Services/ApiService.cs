@@ -926,6 +926,71 @@ namespace AppTiendaComida.Services
         }
 
 
+        //Modificar Producto
+        public static async Task<bool> ModificarProductoConImagen(Producto _producto)
+        {
+            // URL específica para modificar el producto, incluyendo el ProductoId en la ruta
+            string FINAL_URL = BASE_URL + $"Producto/Modificar/{_producto.ProductoId}";
+           
+            try
+            {
+                // Verificar si la imagen es nula
+                if (_producto.Imagen == null)
+                {
+                    throw new Exception("Imagen no puede ser nula");
+                }
+
+                // Crear el contenido multipart/form-data
+                var content = new MultipartFormDataContent();
+
+                // Enviar los demás campos necesarios como parte del contenido
+                content.Add(new StringContent(_producto.Nombre), "nombre");
+                content.Add(new StringContent(_producto.Descripción), "descripcion");
+                content.Add(new StringContent(_producto.Stock.ToString()), "stock");
+                content.Add(new StringContent(_producto.Precio.ToString()), "precio");
+
+                // Añadir la imagen al contenido
+                content.Add(new StreamContent(await _producto.Imagen.OpenReadAsync()), "imagen", _producto.ImagenUrl);
+
+                // Realizar la petición HTTP PUT para modificar el producto
+                var result = await httpClient.PutAsync(FINAL_URL, content).ConfigureAwait(false);
+
+                // Verificar el resultado de la petición
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //borrar Producto 
+
+
+        public static async Task<string> BorrarProducto(int productoId)
+        {
+            string finalUrl = $"{BASE_URL}Producto/Eliminar/{productoId}"; 
+
+            // Realiza la solicitud DELETE para eliminar el usuario
+            var response = await httpClient.DeleteAsync(finalUrl);
+
+            // Verifica si la respuesta fue exitosa
+            if (response.IsSuccessStatusCode)
+            {
+                return "Producto borrado con éxito"; // Mensaje de éxito
+            }
+            else
+            {
+                return $"Error en la solicitud: {response.StatusCode}"; // Manejo de errores
+            }
+        }
 
     }
 }

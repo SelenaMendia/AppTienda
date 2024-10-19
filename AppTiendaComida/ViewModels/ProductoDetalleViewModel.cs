@@ -221,5 +221,44 @@ namespace AppTiendaComida.ViewModels
 
 
 
+
+        [RelayCommand]
+        public async Task DeleteProductoAsync()
+        {
+            if (ProductoSeleccionado?.ProductoId > 0) // Verifica si hay un usuario seleccionado y su ID es válido
+            {
+                try
+                {
+                    IsBusy = true;
+                    bool confirmacion = await Application.Current.MainPage.DisplayAlert(
+                        "Confirmar",
+                        "¿Estás seguro de que deseas borrar el producto?",
+                        "Sí",
+                        "No");
+
+                    if (confirmacion)
+                    {
+                        string resultado = await ApiService.BorrarProducto(ProductoSeleccionado.ProductoId);
+                        await Application.Current.MainPage.DisplayAlert("Resultado", resultado, "Ok"); // Muestra el resultado
+                                                                                                       //await Application.Current.MainPage.Navigation.PopAsync(); // Navega hacia atrás
+                        await Application.Current.MainPage.Navigation.PushAsync(new ProductoListaPage(new ProductoListaViewModel()));
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error!", $"Ha ocurrido un error: {ex.Message}", "Ok");
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Error!", "No hay un usuario seleccionado válido", "Ok");
+            }
+        }
+
     }
 }

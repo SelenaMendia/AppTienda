@@ -92,6 +92,12 @@ HorizontalOptions="Start"
     TextColor="White" 
     Margin="0,10,0,10"/>
 
+                <Button Text="Eliminar Producto" 
+Command="{Binding DeleteProductoCommand}" 
+BackgroundColor="Red" 
+TextColor="White" 
+Margin="0,10,0,10"/>
+
 
                 <Button Text="Agregar Carrito" 
     BackgroundColor="OrangeRed" 
