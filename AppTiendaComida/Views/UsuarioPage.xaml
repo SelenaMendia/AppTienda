@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppTiendaComida.Views.UsuarioPage"
+             xmlns:vmodel="clr-namespace:AppTiendaComida.ViewModels"
+            xmlns:local="clr-namespace:AppTiendaComida.ViewModels"
              Title="UsuarioPage">
     <Grid Padding="5" BackgroundColor="White">
         <!-- Alineado a la parte superior -->
@@ -20,9 +22,9 @@
         WidthRequest="93"
         HeightRequest="5" />
 
-        <!--<Button 
+        <Button 
         Text="Nuevo"
-        Command="{Binding NuevoProductoCommand}"
+        Command="{Binding NuevoUsuarioCommand}"
         CommandParameter="0"
         BackgroundColor="OrangeRed"
         TextColor="White"
@@ -33,10 +35,10 @@
         ImageSource="icon_mas.png"  
         ContentLayout="Right, 10"
         WidthRequest="98"
-        HeightRequest="5" />-->
+        HeightRequest="5" />
 
         <Grid Padding="5" Margin="0,40,0,0">
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding GetUsuariosCommand}">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding GetUsuarioCommand}">
                 <CollectionView 
                 ItemsSource="{Binding Usuarios}" 
                 SelectionMode="Single" 

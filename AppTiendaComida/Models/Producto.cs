@@ -17,7 +17,9 @@ namespace AppTiendaComida.Models
         public int Stock { get; set; }
         public int? CategoriaId { get; set; }
         public string? ImagenUrl { get; set; }
-        public string? ImagenUrllocal { get; set; }
+
+        public FileResult Imagen { get; set; }
+        //public string? ImagenUrllocal { get; set; }
 
         //public virtual Categoria? oCategoria { get; set; }
 

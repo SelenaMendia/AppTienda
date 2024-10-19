@@ -10,5 +10,5 @@ public partial class UsuarioPage : ContentPage
         BindingContext = viewModel;
     }
 
-    
+
 }

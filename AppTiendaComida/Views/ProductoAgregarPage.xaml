@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppTiendaComida.Views.ProductoAgregarPage"
+             xmlns:mv="clr-namespace:AppTiendaComida.ViewModels"
+             x:DataType="mv:ProductoAgregarViewModel"
              >
 
     <Grid Padding="5" BackgroundColor="White">
@@ -16,7 +18,7 @@
         <!-- Alineado a la parte superior -->
         <Button 
         Text="Volver"             
-        Command="{Binding NuevoCommand}" 
+
         CommandParameter="0" 
         BackgroundColor="OrangeRed"    
         TextColor="White" 
@@ -24,7 +26,7 @@
         HorizontalOptions="Start"  
         VerticalOptions="Start"
         Padding="15"
-        ImageSource="icon_menu.png"  
+        ImageSource="flecha_i.png"  
         ContentLayout="Left, 10"
         WidthRequest="93"
         HeightRequest="40" />
@@ -95,13 +97,32 @@
                 <!-- Imagen del Producto -->
                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="20" RowDefinitions="*,*" RowSpacing="0">
                     <Frame CornerRadius="75" Padding="0" HasShadow="False" WidthRequest="300" HeightRequest="300"  Margin="30,0,30,0">
-                        <Image Source="{Binding ModificarImagen}" HeightRequest="300" />
+                        <Image Source="{Binding RutaImagen}" HeightRequest="300" />
 
                     </Frame>
-                    <Button Text="Seleccionar Imagen" Command="{Binding BuscarImagenCommand}"  Grid.Row="0" VerticalOptions="End" HorizontalOptions="Center" WidthRequest="160"
+                    <Button Text="Seleccionar Imagen" Command="{Binding FotoGaleriaCommand}"  Grid.Row="0" VerticalOptions="End" HorizontalOptions="Center" WidthRequest="160"
         Background="WhiteSmoke" />
 
+                    <Button 
+                    Text="Tomar Foto" 
+                    Grid.Row="6" 
+                    Padding="10"
+                    Grid.Column="1" 
+                    Command="{Binding TomarFotoCommand}" 
+                    BackgroundColor="DarkOliveGreen" />
+
+                    <!--<Image 
+                    Aspect="AspectFit"
+                    Source="{Binding RutaImagen}"                     
+                    WidthRequest="300"
+                    HeightRequest="300" 
+                    HorizontalOptions="Center" 
+                    Grid.Row="7" 
+                    Grid.ColumnSpan="2" />-->
+
+
                 </Grid>
+                
                 <Button Text="Agregar Producto" 
                     Command="{Binding GrabarProductoCommand}" 
                     BackgroundColor="Green" 

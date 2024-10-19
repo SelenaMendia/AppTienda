@@ -52,21 +52,21 @@ HorizontalOptions="Start"
                         HeightRequest="160"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
-                        Source="{Binding ImagenUrl}"
+                        Source="{Binding ProductoSeleccionado.ImagenUrl}"
                         WidthRequest="160"/>
                     </Frame>
                 </Grid>
                 <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10"  Spacing="55">
-                    <Label Text="{Binding Nombre}" FontSize="Medium" />
+                    <Label Text="{Binding ProductoSeleccionado.Nombre}" FontSize="Medium" />
                 </VerticalStackLayout>
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="30">
-                    <Label Text="{Binding Descripción, StringFormat='Descripción del producto: {0}'}" 
+                    <Label Text="{Binding ProductoSeleccionado.Descripción, StringFormat='Descripción del producto: {0}'}" 
                    HorizontalOptions="Center" 
                    HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding Precio, StringFormat='Precio: {0:C}'}" 
+                    <Label Text="{Binding ProductoSeleccionado.Precio, StringFormat='Precio: {0:C}'}" 
                    HorizontalOptions="Center" 
                    HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding Stock, StringFormat='Stock: {0} unidades'}" 
+                    <Label Text="{Binding ProductoSeleccionado.Stock, StringFormat='Stock: {0} unidades'}" 
                    HorizontalOptions="Center" 
                    HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
@@ -75,7 +75,7 @@ HorizontalOptions="Start"
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                     <Button Text="-" Command="{Binding DecreaseQuantityCommand}" />
                     <Label 
-                        Text="1" 
+                        Text="{Binding Cantidad}" 
                HorizontalOptions="Center" 
                HorizontalTextAlignment="Center" 
                FontSize="Medium" 

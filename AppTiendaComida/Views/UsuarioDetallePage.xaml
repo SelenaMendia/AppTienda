@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppTiendaComida.Views.UsuarioDetallePage"
              xmlns:local="clr-namespace:AppTiendaComida.ViewModels"
-
-             Title="UsuarioDetallePage">
+          
+             >
     <ContentPage.Content>
         <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
             <VerticalStackLayout>
@@ -52,26 +52,26 @@
                 </Grid>
 
                 <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10" Spacing="55">
-                    <Label Text="{Binding Nombre}" FontSize="Medium" />
+                    <Label Text="{Binding UsuarioSeleccionado.Nombre}" FontSize="Medium" />
                 </VerticalStackLayout>
 
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="30">
-                    <Label Text="{Binding Usuario1, StringFormat='Usuario: {0}'}" 
+                    <Label Text="{Binding UsuarioSeleccionado.Usuario1, StringFormat='Usuario: {0}'}" 
                            HorizontalOptions="Center" 
                            HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding Telefono, StringFormat='Teléfono: {0}'}" 
+                    <Label Text="{Binding UsuarioSeleccionado.Telefono, StringFormat='Teléfono: {0}'}" 
                            HorizontalOptions="Center" 
                            HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding Correo, StringFormat='Correo: {0}'}" 
+                    <Label Text="{Binding UsuarioSeleccionado.Correo, StringFormat='Correo: {0}'}" 
                            HorizontalOptions="Center" 
                            HorizontalTextAlignment="Center" />
-                    <Label Text="{Binding Rol, StringFormat='Rol: {0}'}" 
+                    <Label Text="{Binding UsuarioSeleccionado.Rol, StringFormat='Rol: {0}'}" 
                            HorizontalOptions="Center" 
                            HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
 
-                <Button Text="Modificar Usuario" 
-                        Command="{Binding ModificarUsuarioCommand}" 
+                <Button Text="Eliminar Usuario" 
+                        Command="{Binding DeleteUsuarioCommand}" 
                         BackgroundColor="OrangeRed" 
                         TextColor="White" 
                         Margin="0,10,0,10"/>

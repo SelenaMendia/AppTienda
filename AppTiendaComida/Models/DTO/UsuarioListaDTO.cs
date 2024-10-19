@@ -12,7 +12,7 @@ namespace AppTiendaComida.Models.DTO
 
         public string? Nombre { get; set; } = null!;
 
-        public string? Usuario1 { get; set; } = null!;
+        public string? Usuario { get; set; } = null!;
 
         public string? Telefono { get; set; } = null!;
 

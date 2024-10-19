@@ -298,7 +298,7 @@ namespace AppTiendaComida.ViewModels
                     if (productoDetalles != null)
                     {
                         // Navega a la página de detalles con la información del producto obtenido
-                        await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage(productoDetalles));
+                        await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage(ProductoSeleccionado));
                     }
                 }
                 catch (Exception ex)

@@ -10,17 +10,28 @@ public partial class ProductoDetallePage : ContentPage
     //	InitializeComponent();
     //       BindingContext = new ProductoDetalleViewModel();
     //   }
-    private Producto _productoDetalles;
+    //private Producto _productoDetalles;
 
-    public ProductoDetallePage(Producto productoDetalles)
+    //public ProductoDetallePage(Producto productoDetalles)
+    //{
+    //    InitializeComponent();
+    //    _productoDetalles = productoDetalles;
+    //    BindingContext = _productoDetalles;
+
+    //}
+
+    public ProductoDetallePage(Producto ProductoSeleccionado)
     {
         InitializeComponent();
-        _productoDetalles = productoDetalles;
-        BindingContext = _productoDetalles;
+
+        ProductoDetalleViewModel vm = new ProductoDetalleViewModel(ProductoSeleccionado);
+
+        BindingContext = vm;
+
+        vm.ProductoSeleccionado = ProductoSeleccionado;
 
     }
 
-    
 
 
 }

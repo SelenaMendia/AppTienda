@@ -45,7 +45,7 @@ namespace AppTiendaComida.ViewModels
 
                     ModificarProducto.Nombre = ProductoRecibido.Nombre;
                     ModificarProducto.Precio = ProductoRecibido.Precio;
-                    ModificarProducto.Descripcion = ProductoRecibido.Descripción;
+                    ModificarProducto.Descripción = ProductoRecibido.Descripción;
                     ModificarProducto.Stock = ProductoRecibido.Stock;
 
 

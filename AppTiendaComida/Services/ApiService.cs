@@ -16,6 +16,7 @@ using AppTiendaComida.Models.DTO;
 
 
 
+
 namespace AppTiendaComida.Services
 {
     public class ApiService
@@ -432,60 +433,117 @@ namespace AppTiendaComida.Services
         //    }
         //}
 
+        //este esta bien
+        //public static async Task<Producto> PostProductosAsync(CrearProductoDto producto)
+        //{
+        //    string FINAL_URL = BASE_URL + "Producto/CrearConImagen";
+        //    var content = new MultipartFormDataContent();
+
+        //    // Agregar el resto de las propiedades del producto
+        //    content.Add(new StringContent(producto.Nombre ?? ""), "Nombre");
+        //    content.Add(new StringContent(producto.Precio.ToString()), "Precio");
+        //    content.Add(new StringContent(producto.Descripción ?? ""), "Descripción");
+        //    content.Add(new StringContent(producto.Stock.ToString()), "Stock");
+
+        //    // Verificar si la imagen no es nula
+        //    if (producto.Imagen != null)
+        //    {
+        //        using var stream = producto.Imagen.OpenReadStream();
+        //        var streamContent = new StreamContent(stream);
+
+        //        // Verificar el ContentType y asignar un valor por defecto si es necesario
+        //        var contentType = !string.IsNullOrEmpty(producto.Imagen.ContentType)
+        //            ? producto.Imagen.ContentType
+        //            : "application/octet-stream";  // Valor por defecto si el tipo no se detecta
+
+        //        // Asignar el tipo de contenido
+        //        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+
+        //        // Adjuntar la imagen al form-data con el nombre del campo "Imagen"
+        //        content.Add(streamContent, "Imagen", producto.Imagen.FileName);
+        //    }
+
+        //    // Enviar la solicitud HTTP POST
+        //    var response = await httpClient.PostAsync(FINAL_URL, content);
+
+        //    //esto es para Task bool
+        //    //if (response.IsSuccessStatusCode)
+        //    //{
+        //    //    return true;  // Producto creado correctamente
+        //    //}
+        //    //else
+        //    //{
+        //    //    var errorMessage = await response.Content.ReadAsStringAsync();
+        //    //    throw new HttpRequestException($"Error en la solicitud: {response.StatusCode} - {errorMessage}");
+        //    //}
+        //    //esto debo cambiar el Task en Producto 
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        // Leer y devolver el objeto Producto creado
+        //        var productoCreado = await response.Content.ReadFromJsonAsync<Producto>();
+        //        return productoCreado;  // Devolver el producto creado
+        //    }
+        //    else
+        //    {
+        //        //var errorMessage = await response.Content.ReadAsStringAsync();
+        //        //throw new HttpRequestException($"Error en la solicitud: {response.StatusCode} - {errorMessage}");
+
+        //        throw new HttpRequestException($"Error en la solicitud: {response.StatusCode}");
+        //    }
+        //}
+
         public static async Task<bool> PostProductosAsync(CrearProductoDto producto)
         {
             string FINAL_URL = BASE_URL + "Producto/CrearConImagen";
-            var content = new MultipartFormDataContent();
-
-            // Agregar el resto de las propiedades del producto
-            content.Add(new StringContent(producto.Nombre ?? ""), "Nombre");
-            content.Add(new StringContent(producto.Precio.ToString()), "Precio");
-            content.Add(new StringContent(producto.Descripcion ?? ""), "Descripcion");
-            content.Add(new StringContent(producto.Stock.ToString()), "Stock");
-
-            // Verificar si la imagen no es nula
-            if (producto.Imagen != null)
+            try
             {
-                using var stream = producto.Imagen.OpenReadStream();
-                var streamContent = new StreamContent(stream);
+                // Crear el contenido multipart/form-data
+                var content = new MultipartFormDataContent();
 
-                // Verificar el ContentType y asignar un valor por defecto si es necesario
-                var contentType = !string.IsNullOrEmpty(producto.Imagen.ContentType)
-                    ? producto.Imagen.ContentType
-                    : "application/octet-stream";  // Valor por defecto si el tipo no se detecta
+                // Agregar los datos del producto
+                content.Add(new StringContent(producto.Nombre ?? ""), "Nombre");
+                content.Add(new StringContent(producto.Precio?.ToString() ?? "0"), "Precio");
+                content.Add(new StringContent(producto.Descripción ?? ""), "Descripción");
+                content.Add(new StringContent(producto.Stock?.ToString() ?? "0"), "Stock");
 
-                // Asignar el tipo de contenido
-                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+                //var fileStreamContent= new (File.OpenRead())
 
-                // Adjuntar la imagen al form-data con el nombre del campo "Imagen"
-                content.Add(streamContent, "Imagen", producto.Imagen.FileName);
+                //// Verificar si la imagen no es nula
+                //if (producto.Imagen != null)
+                //{
+                //    // Abrir el stream de la imagen
+                //    using var stream = producto.Imagen.OpenReadStream();
+                //    var streamContent = new StreamContent(stream);
+
+                //    // Verificar y asignar el tipo de contenido adecuado
+                //    var contentType = !string.IsNullOrEmpty(producto.Imagen.ContentType)
+                //        ? producto.Imagen.ContentType
+                //        : "application/octet-stream"; // Valor por defecto si el tipo no se detecta
+
+                //    // Asignar el tipo de contenido
+                //    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+
+                //    // Adjuntar la imagen al form-data con el nombre del campo "Imagen"
+                //    content.Add(streamContent, "Imagen", producto.Imagen.FileName);
+                //}
+                // Realizar la solicitud POST
+                var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return true; // Producto creado correctamente
+                }
+
+                // Si ocurre un error, capturar el mensaje de respuesta
+                var errorResponse = await result.Content.ReadAsStringAsync();
+                throw new Exception($"Error al agregar producto: {errorResponse}");
             }
-
-            // Enviar la solicitud HTTP POST
-            var response = await httpClient.PostAsync(FINAL_URL, content);
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                return true;  // Producto creado correctamente
+                throw new Exception($"Error en PostProductosAsync: {ex.Message}");
             }
-            else
-            {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Error en la solicitud: {response.StatusCode} - {errorMessage}");
-            }
-            //esto debo cambiar el Task en Producto 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    // Leer y devolver el objeto Producto creado
-            //    var productoCreado = await response.Content.ReadFromJsonAsync<Producto>();
-            //    return productoCreado;  // Devolver el producto creado
-            //}
-            //else
-            //{
-            //    var errorMessage = await response.Content.ReadAsStringAsync();
-            //    throw new HttpRequestException($"Error en la solicitud: {response.StatusCode} - {errorMessage}");
-            //}
         }
+
 
 
 
@@ -527,25 +585,51 @@ namespace AppTiendaComida.Services
 
 
 
-        public static async Task<bool> AgregarUsuario(Usuario _usuario)
+        public static async Task<bool> AgregarUsuario(UsuarioListaDTO _usuario)
         {
-            string FINAL_URL = BASE_URL + "Usuario";
+            string FINAL_URL = BASE_URL + "Usuario/Crear";
+            //try
+            //{
+            //    var content = new StringContent(
+            //        JsonSerializer.Serialize(_usuario),
+            //        Encoding.UTF8, "application/json"
+            //    );
+
+            //    var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+            //    if (result.IsSuccessStatusCode) // Cambié aquí
+            //    {
+            //        // Aquí puedes agregar lógica para obtener el ID o detalles del usuario creado
+            //        return true;
+            //    }
+
+            //    // Puedes leer el mensaje de error de la respuesta para diagnosticar
+            //    var errorResponse = await result.Content.ReadAsStringAsync();
+            //    throw new Exception($"Error al agregar usuario: {errorResponse}");
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception(ex.Message);
+            //}
             try
             {
+
+
                 var content = new StringContent(
                     JsonSerializer.Serialize(_usuario),
                     Encoding.UTF8, "application/json"
+
                 );
 
                 var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
 
-                if (result.IsSuccessStatusCode) // Cambié aquí
+                if (result.IsSuccessStatusCode)
                 {
-                    // Aquí puedes agregar lógica para obtener el ID o detalles del usuario creado
+
                     return true;
                 }
 
-                // Puedes leer el mensaje de error de la respuesta para diagnosticar
+
                 var errorResponse = await result.Content.ReadAsStringAsync();
                 throw new Exception($"Error al agregar usuario: {errorResponse}");
             }
@@ -601,7 +685,7 @@ namespace AppTiendaComida.Services
             // Asignar propiedades del producto
             content.Add(new StringContent(producto.Nombre ?? ""), "Nombre");
             content.Add(new StringContent(producto.Precio.ToString()), "Precio");
-            content.Add(new StringContent(producto.Descripcion ?? ""), "Descripcion");
+            content.Add(new StringContent(producto.Descripción ?? ""), "Descripción");
             content.Add(new StringContent(producto.Stock.ToString()), "Stock");
 
             // Manejo de la imagen
@@ -778,7 +862,68 @@ namespace AppTiendaComida.Services
             }
         }
 
+        //borrar Usuario
 
+        public static async Task<string> BorrarUsuario(int usuarioId)
+        {
+            string finalUrl = $"{BASE_URL}Usuario/Eliminar/{usuarioId}"; // Construye la URL final
+
+            // Realiza la solicitud DELETE para eliminar el usuario
+            var response = await httpClient.DeleteAsync(finalUrl);
+
+            // Verifica si la respuesta fue exitosa
+            if (response.IsSuccessStatusCode)
+            {
+                return "Usuario borrado con éxito"; // Mensaje de éxito
+            }
+            else
+            {
+                return $"Error en la solicitud: {response.StatusCode}"; // Manejo de errores
+            }
+        }
+
+
+        //AgregarProductoConImagen
+        public static async Task<bool> AgregarProductoConImagen(Producto _producto)
+        {
+            // metodo con form-data
+            string FINAL_URL = BASE_URL + "Producto/CrearConImagen";
+
+            try
+            {
+
+                // check if the image is null
+                if (_producto.Imagen == null)
+                {
+                    throw new Exception("Imagen no puede ser nula");
+                }
+
+                var content = new MultipartFormDataContent();
+                content.Add(new StringContent(_producto.Nombre), "nombre");
+                content.Add(new StringContent(_producto.Descripción), "descripcion");
+                content.Add(new StringContent(_producto.Stock.ToString()), "stock");
+                content.Add(new StringContent(_producto.Precio.ToString()), "precio");
+                content.Add(new StreamContent(await _producto.Imagen.OpenReadAsync()), "imagen", _producto.ImagenUrl);
+
+                var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+
+        }
 
 
 
